@@ -4,7 +4,7 @@ import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
 const apiMaps = "AIzaSyA5UEAy2FQgtkK3FaVOfnFFp9hVNAxxQTM";
 
 const mapStyles = {
-    width: "100%",
+    width: "90%",
     heigth: "100%"
 };
 
@@ -13,9 +13,24 @@ export class MapContainer extends React.Component {
         super(props);
 
         this.state = {
-            venues: [{ lat: 32.219044, lng: 76.323402 }]
+            venues: [{ lat: 32.219044, lng: 76.323402 }],
+            initLat: 30.55,
+            initLong: 67.99
         };
     }
+    componentDidMount() {
+        if ("geolocation" in navigator) {
+            console.log("Available");
+            navigator.geolocation.getCurrentPosition((position) => {
+                console.log("Latitude is :", position.coords.latitude);
+                console.log("Longitude is :", position.coords.longitude);
+                this.setState({ initLat: position.coords.latitude, initLong: position.coords.longitude })
+            });
+        } else {
+            console.log("Not Available");
+        }
+    }
+
 
     displayMarkers = () => {
         return this.state.venues.map((venue, index) => {
@@ -37,9 +52,9 @@ export class MapContainer extends React.Component {
         return (
             <Map
                 google={this.props.google}
-                zoom={8}
+                zoom={17}
                 style={mapStyles}
-                initialCenter={{ lat: 32.219044, lng: 76.323402 }}
+                initialCenter={{ lat: this.state.initLat, lng: this.state.initLong }}
             >
                 {this.displayMarkers()}
             </Map>
