@@ -14,7 +14,6 @@ export class MapContainer extends React.Component {
         super(props);
 
         this.state = {
-            venues: [],
             lat: 32,
             lng: 76
         };
