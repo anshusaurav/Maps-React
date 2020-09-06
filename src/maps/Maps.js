@@ -13,8 +13,8 @@ export class MapContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            lat: 32,
-            lng: 76
+            lat: null,
+            lng: null
         };
     }
     displayMarkers = () => {
@@ -38,14 +38,9 @@ export class MapContainer extends React.Component {
 
                 console.log("Latitude is :", position.coords.latitude);
                 console.log("Longitude is :", position.coords.longitude);
-                this.setState(
-                    {
-                        lat: position.coords.latitude, lng: position.coords.longitude
-                    },
-                    () => {
-                        console.log("Venues", this.state.venues);
-                    }
-                );
+                this.setState({ lat: position.coords.latitude, lng: position.coords.longitude })
+
+
             });
 
 
@@ -58,19 +53,18 @@ export class MapContainer extends React.Component {
             this.state.lat &&
             < Map
                 google={this.props.google}
-                zoom={9}
+                zoom={17}
                 style={mapStyles}
-                initialCenter={{ lat: this.state.lat, lng: this.state.lng }
-                }
+                initialCenter={{ lat: this.state.lat, lng: this.state.lng }}
             >
                 <Marker
                     position={{
                         lat: this.state.lat,
                         lng: this.state.lng
                     }}
+
                     onClick={() => console.log(this.state.venues)}>
                 </Marker>
-                {/* {this.displayMarkers()} */}
             </Map >
         );
     }
